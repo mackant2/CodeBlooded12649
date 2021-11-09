@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-public class MecanumTeleOp extends LinearOpMode {
+public class OllieDrive extends LinearOpMode {
    @Override
    public void runOpMode() throws InterruptedException {
       // Declare our motors
@@ -24,27 +24,51 @@ public class MecanumTeleOp extends LinearOpMode {
       motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
       waitForStart();
-
-      if (isStopRequested()) return;
-        
+      Light.setPower(1);
       while (opModeIsActive()) {
-         double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-         double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-         double rx = gamepad1.right_stick_x;
-        Light.setPower(1);
-         // Denominator is the largest motor power (absolute value) or 1
-         // This ensures all the powers maintain the same ratio, but only when
-         // at least one is out of the range [-1, 1]
-         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-         double frontLeftPower = (y + x + rx) / denominator;
-         double backLeftPower = (y - x + rx) / denominator;
-         double frontRightPower = (y - x - rx) / denominator;
-         double backRightPower = (y + x - rx) / denominator;
+        double left;
+        double right;
+        
+        double leftDrivePower;
+        double rightDrivePower;
+        double leftfrontPower;
+        double rightfrontPower;
+        // Run wheels in tank mode (note: The joystick goes pos when pushed forwards, so negate it)
+        left = gamepad1.left_stick_y;
+        right = gamepad1.right_stick_y;
 
-        motorFrontLeft.setPower(frontLeftPower);
-        motorBackLeft.setPower(backLeftPower);
-        motorFrontRight.setPower(frontRightPower);
-        motorBackRight.setPower(backRightPower);
+        leftDrivePower = left;
+        
+       rightDrivePower = right;
+         
+         right = gamepad1.right_stick_y;
+          left = gamepad1.left_stick_y;
+        
+       
+      leftfrontPower = left;
+      rightfrontPower  = right;
+       
+         left = gamepad1.left_stick_x;
+         right = gamepad1.right_stick_x;
+
+        
+         leftDrivePower = leftDrivePower + left;
+        rightDrivePower = rightDrivePower + right;
+        
+        
+       left = gamepad1.left_stick_x;
+       right = gamepad1.right_stick_x;
+      
+      leftfrontPower = leftfrontPower + right;
+        rightfrontPower = rightfrontPower + left;
+     
+     
+      motorBackLeft.setPower(leftDrivePower);
+      motorBackRight.setPower(rightDrivePower);
+      motorFrontLeft.setPower(leftfrontPower);
+      motorFrontRight.setPower(rightfrontPower);
+      
+
          
         if (gamepad1.right_trigger>.2)
             Duckspinner.setPower(-gamepad1.right_trigger);
@@ -56,7 +80,8 @@ public class MecanumTeleOp extends LinearOpMode {
    
        
    }
-}
 
+
+}
 
 
