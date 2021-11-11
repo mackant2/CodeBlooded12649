@@ -90,13 +90,13 @@ public class MainAuto extends LinearOpMode {
         strafingDistance *= -1;
     }
     
-    strafeToPosition(strafingDistance, .5);
+   //ollie strafeToPosition(strafingDistance, 5);
     sleep(1000);
     
     
     
    //ollie moveToPosition(-70.2, .5);
-     
+     moveWithWatch(-70.2, .2);
     
     //
     
@@ -277,7 +277,14 @@ public class MainAuto extends LinearOpMode {
         frontright.setPower(speed);
         backright.setPower(speed);
         //
-        while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()){}
+        while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy() &&
+        sensorRange.getDistance(DistanceUnit.INCH)>10)
+        {
+            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
+            telemetry.update();
+            
+        }
+       
         frontright.setPower(0);
         frontleft.setPower(0);
         backright.setPower(0);
@@ -346,6 +353,43 @@ public class MainAuto extends LinearOpMode {
         frontright.setPower(-input);
         backright.setPower(-input);
     }
+
+    
+      public void moveWithWatch(double inches, double speed){
+        //
+        int move = (int)(Math.round(inches*conversion));
+        //
+        backleft.setTargetPosition(backleft.getCurrentPosition() + move);
+        frontleft.setTargetPosition(frontleft.getCurrentPosition() + move);
+        backright.setTargetPosition(backright.getCurrentPosition() + move);
+        frontright.setTargetPosition(frontright.getCurrentPosition() + move);
+        //
+        frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //
+        frontleft.setPower(speed);
+        backleft.setPower(speed);
+        frontright.setPower(speed);
+        backright.setPower(speed);
+        //
+        while (frontleft.isBusy() && frontright.isBusy() && backleft.isBusy() && backright.isBusy()){
+            if (exit){
+                frontright.setPower(0);
+                frontleft.setPower(0);
+                backright.setPower(0);
+                backleft.setPower(0);
+                return;
+            }
+        }
+        frontright.setPower(0);
+        frontleft.setPower(0);
+        backright.setPower(0);
+        backleft.setPower(0);
+        return;
+    }
+    
 }
     
     

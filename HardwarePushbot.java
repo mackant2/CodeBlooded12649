@@ -61,6 +61,7 @@ public class HardwarePushbot
     public DcMotor  right_front  = null;
     public DcMotor  Duckspinner  = null;
     public DcMotor  Light = null;
+    public DcMotor  Arm = null;
     private DistanceSensor sensorRange;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -86,6 +87,7 @@ public class HardwarePushbot
         left_front  = hwMap.get(DcMotor.class, "left_front");
         right_front = hwMap.get(DcMotor.class, "right_front");
         Duckspinner = hwMap.get(DcMotor.class, "Duckspinner");
+        Arm = hwMap.get(DcMotor.class, "Arm");
         Light = hwMap.get(DcMotor.class, "Light");
         sensorRange = hwMap.get(DistanceSensor.class, "sensor_range");
         
@@ -94,6 +96,7 @@ public class HardwarePushbot
         left_front.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         right_front.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         Duckspinner.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+         Arm.setDirection(DcMotor.Direction.REVERSE);
         Light.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
@@ -103,6 +106,7 @@ public class HardwarePushbot
         right_front.setPower(0);
         Duckspinner.setPower(0);
        Light.setPower(0);
+       Arm.setPower(0);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -111,6 +115,7 @@ public class HardwarePushbot
         right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Duckspinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Light.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // Define and initialize ALL installed servos.
     }
  }

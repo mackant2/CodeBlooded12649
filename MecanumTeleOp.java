@@ -17,6 +17,7 @@ public class MecanumTeleOp extends LinearOpMode {
       DcMotor motorFrontRight = hardwareMap.dcMotor.get("right_front");
       DcMotor motorBackRight = hardwareMap.dcMotor.get("right_back");
       DcMotor Duckspinner = hardwareMap.dcMotor.get("Duckspinner");
+      DcMotor Arm = hardwareMap.dcMotor.get("Arm");
       DcMotor Light = hardwareMap.dcMotor.get("Light");
       // Reverse the right side motors
       // Reverse left motors if you are using NeveRests
@@ -46,12 +47,20 @@ public class MecanumTeleOp extends LinearOpMode {
         motorFrontRight.setPower(frontRightPower);
         motorBackRight.setPower(backRightPower);
          
-        if (gamepad1.right_trigger>.2)
-            Duckspinner.setPower(-gamepad1.right_trigger);
-         else if (gamepad1.left_trigger>.2)
-          Duckspinner.setPower(1*gamepad1.left_trigger);
+        if (gamepad2.right_trigger>.2)
+            Duckspinner.setPower(-gamepad2.right_trigger);
+         else if (gamepad2.left_trigger>.2)
+          Duckspinner.setPower(1*gamepad2.left_trigger);
           else  
           Duckspinner.setPower(0);
+          
+        if (gamepad2.left_bumper) {
+                Arm.setPower(.1);
+        } else if (gamepad2.right_bumper) {
+            Arm.setPower(-.1);
+        } else {
+            Arm.setPower(0);
+        }
       }
    
        

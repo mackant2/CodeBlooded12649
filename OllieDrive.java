@@ -18,6 +18,7 @@ public class OllieDrive extends LinearOpMode {
       DcMotor motorBackRight = hardwareMap.dcMotor.get("right_back");
       DcMotor Duckspinner = hardwareMap.dcMotor.get("Duckspinner");
       DcMotor Light = hardwareMap.dcMotor.get("Light");
+      DcMotor Arm = hardwareMap.dcMotor.get("Arm");
       // Reverse the right side motors
       // Reverse left motors if you are using NeveRests
       motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -76,6 +77,14 @@ public class OllieDrive extends LinearOpMode {
           Duckspinner.setPower(1*gamepad1.left_trigger);
           else  
           Duckspinner.setPower(0);
+          
+          if (gamepad2.left_bumper) {
+                Arm.setPower(.1);
+        } else if (gamepad2.right_bumper) {
+            Arm.setPower(-.1);
+        } else {
+            Arm.setPower(0);
+        }
       }
    
        
